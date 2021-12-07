@@ -1,3 +1,4 @@
+# python -m -> calling package.subpackage.__main__.py from commandline
 python3 -m pyserini.search --topics $1 \
                            --index $2 \
                            --output run.sample.txt \
