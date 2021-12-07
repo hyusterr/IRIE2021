@@ -42,6 +42,7 @@ def chunk_into_pieces(directory):
           save each part to
           doc/abstract/3052048
           doc/body/3052048
+    * train_query/11 has xml format problem
     '''
     
     parent_path = Path(directory)
@@ -57,9 +58,45 @@ def chunk_into_pieces(directory):
                 save_path.write_text(content.strip(), encoding='utf-8')
 
 
+def calculate_map(answer_csv, prediction_csv):
+    '''
+    calculate MAP from 2 csv file:
+    query_id,doc_id1 doc_id2
+    input:
+    - answer_csv: str
+    - prediction_csv: str
+
+    output:
+    - a score between 0 and 1, float
+    '''
+    with open(answer_csv, 'r') as f:
+        answers = [i.strip().split(',') for i in f.readlines()]
+        answers = {ans[0]: ans[1].split() for ans in answers}
+    with open(prediction_csv, 'r') as f:
+        predictions = [i.strip().split(',') for i in f.readlines()]
+        predictions = {pred[0]: pred[1].split() for pred in predictions}
+
+    assert len(answers) == len(predictions)
+
+    average_precisions = []
+    for key in answers.keys():
+        y_true = answers[key]
+        y_pred = predictions[key]
+
+        
+
+
+
+def build_query_pyserini(directory):
+    '''
+    transform query into pyserini's format, 
+    '''
+
+
+
 
 if __name__ == '__main__':
-    chunk_into_pieces(sys.argv[1])
+    calculate_map(sys.argv[1], sys.argv[2])
 
 
 
