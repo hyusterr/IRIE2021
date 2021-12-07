@@ -6,11 +6,16 @@
 # TODO: write code in clean way
 # TODO: familiar with git
 import sys
+import json
 import xml.etree.ElementTree as ET
 from pprint import pprint
 from pathlib import Path
+from tqdm.auto import tqdm
 
 # think point: XML information may highlight something, e.g. bold means important
+# observation: doc/body is very long; avg. wc ~7,713; doc/abstract's avg. wc 414; there are some null docs (29)
+# observation: query length often < 500
+
 def read_xml(filename):
     '''
     input:
@@ -83,20 +88,46 @@ def calculate_map(answer_csv, prediction_csv):
         y_true = answers[key]
         y_pred = predictions[key]
 
+
         
-
-
-
 def build_query_pyserini(directory):
     '''
-    transform query into pyserini's format, 
+    transform query into pyserini's format, which will be tsv
+    id<TAB>query
     '''
+    dir_path = Path(directory)
+    for child in dir_path.iterdir():
+        if child.is_file():
+            with child.open() as f:
+                query = f.read().replace('\n', ' ')
+            print(f'{child.name}\t{query}')
 
+
+def build_doc_pyserini(in_directory, out_directory):
+    '''
+    pyserini needs doc to be represented in json format
+    one doc one json
+    {'id': 'file_id', 'contents': 'contents'}
+
+    inputs:
+    - in_directory: str
+    - out_directory: str
+    '''
+    in_directory = Path(in_directory)
+    out_directory = Path(out_directory)
+    for child in tqdm(in_directory.iterdir()):
+        if child.is_file():
+            out_filepath = out_directory / (str(child.name) + '.json')
+            with child.open() as f:
+                data = {"id": child.name, "contents": f.read().strip()}
+            with out_filepath.open('w') as f:
+                json.dump(data, f, ensure_ascii=False, indent=4)
+            
 
 
 
 if __name__ == '__main__':
-    calculate_map(sys.argv[1], sys.argv[2])
+    build_doc_pyserini(sys.argv[1], sys.argv[2])
 
 
 
