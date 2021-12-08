@@ -7,6 +7,8 @@
 # TODO: familiar with git
 import sys
 import json
+import ml_metrics
+import numpy as np
 import xml.etree.ElementTree as ET
 from pprint import pprint
 from pathlib import Path
@@ -63,6 +65,7 @@ def chunk_into_pieces(directory):
                 save_path.write_text(content.strip(), encoding='utf-8')
 
 
+# see: https://www.kaggle.com/wendykan/map-k-demo
 def calculate_map(answer_csv, prediction_csv):
     '''
     calculate MAP from 2 csv file:
@@ -75,10 +78,10 @@ def calculate_map(answer_csv, prediction_csv):
     - a score between 0 and 1, float
     '''
     with open(answer_csv, 'r') as f:
-        answers = [i.strip().split(',') for i in f.readlines()]
+        answers = [i.strip().split(',') for i in f.readlines()][1:] # skip header
         answers = {ans[0]: ans[1].split() for ans in answers}
     with open(prediction_csv, 'r') as f:
-        predictions = [i.strip().split(',') for i in f.readlines()]
+        predictions = [i.strip().split(',') for i in f.readlines()][1:]
         predictions = {pred[0]: pred[1].split() for pred in predictions}
 
     assert len(answers) == len(predictions)
@@ -87,6 +90,11 @@ def calculate_map(answer_csv, prediction_csv):
     for key in answers.keys():
         y_true = answers[key]
         y_pred = predictions[key]
+        average_precisions.append(ml_metrics.apk(y_true, y_pred, len(y_pred)))
+    mean = np.array(average_precisions).mean()
+
+    print(mean)
+    return mean
 
 
         
@@ -127,7 +135,7 @@ def build_doc_pyserini(in_directory, out_directory):
 
 
 if __name__ == '__main__':
-    build_doc_pyserini(sys.argv[1], sys.argv[2])
+    calculate_map(sys.argv[1], sys.argv[2])
 
 
 
