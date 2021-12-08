@@ -93,7 +93,7 @@ def calculate_map(answer_csv, prediction_csv):
         average_precisions.append(ml_metrics.apk(y_true, y_pred, len(y_pred)))
     mean = np.array(average_precisions).mean()
 
-    print(mean)
+    print(f'MAP@{len(y_pred)}:', mean)
     return mean
 
 
