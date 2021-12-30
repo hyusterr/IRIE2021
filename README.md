@@ -8,3 +8,8 @@ adapt code from waterloo's pyserini package for bm25 search, follow these steps:
 `bash search.sh path/to/query.tsv path/to/indexes`  
 - post-process to kaggle format  
 `python3 run.sample.txt > submission.csv`
+
+## scispacy
+adapt allenai's scispacy to do medical-bio NER
+- build a new directory named NER inside each file directory and save the NER result as new document
+`python3 scispacy/doc2ner.py /path/to/document/directory`
