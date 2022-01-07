@@ -11,14 +11,21 @@ from scispacy.abbreviation import AbbreviationDetector
 spacy.prefer_gpu()
 
 # en_core_sci_sm performs already well
-nlp = spacy.load("en_core_sci_sm")
+nlp = spacy.load("en_core_sci_scibert")
 # Add the abbreviation pipe to the spacy pipeline.
-# nlp.add_pipe("abbreviation_detector")
+nlp.add_pipe("abbreviation_detector")
+
+def read_doc(filename: str) -> str:
+    with open(filename, 'r') as f:
+        text = f.read()
+    return text
+
 
 def doc2ner(text: str, nlp=nlp) -> str:
     doc = nlp(text)
     ners = " ".join([ent.text for ent in doc.ents])
-    # print(" ".join([abrv._.long_form for abrv in doc._.abbreviations]))
+    print(ners)
+    print(" ".join([abrv._.long_form for abrv in doc._.abbreviations]))
     return ners
 
 
@@ -37,4 +44,5 @@ def main(directory):
 
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    text = read_doc(sys.argv[1])
+    doc2ner(text)
