@@ -12,7 +12,7 @@ bash search.sh path/to/query.tsv path/to/indexes
 ```
 - post-process to kaggle format  
 ```bash
-python3 run.sample.txt > submission.csv
+python3 post-process.py run.sample.txt > submission.csv
 ```
 
 ## scispacy
@@ -26,18 +26,18 @@ python3 scispacy/doc2ner.py /path/to/document/directory
 use sentence-transformers package to do reranker training  
 - finetune BERT checkpoint with siamese network  
 ```bash
-python3 SBERT/train.py -qd path/to/train_query/description/  
-                        -dd path/to/doc/abstract/  
-                        -bs batch size  
-                        --model_save_path path/to/saving/diretory  
-                        -e number of epochs  
-                        -m huggingface/pretrain/model/name
+python3 SBERT/train.py -qd path/to/train_query/description/ \
+                       -dd path/to/doc/abstract/ \
+                       -bs batch size \
+                       --model_save_path path/to/saving/diretory \
+                       -e number of epochs \
+                       -m huggingface/pretrain/model/name
 ```
 - inference on first-stage retrieval outcome
 ```bash
-python3 SBERT/inference.py -m model/saving/path  
-                            -qd test_query/description/  
-                            -dd doc/abstract/  
-                            -fr first/stage/output/csv \  
-                            -o submission.csv
+python3 SBERT/inference.py -m model/saving/path \
+                           -qd test_query/description/ \
+                           -dd doc/abstract/ \
+                           -fr first/stage/output/csv \  
+                           -o submission.csv
 ```
