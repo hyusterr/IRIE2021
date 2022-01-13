@@ -1,6 +1,6 @@
 # IRIE2021
 ## notebook
-contain our experiments related to pyterrier, including our highest leaderboard results
+contain our experiments related to pyterrier, including our highest leaderboard results  
 My teammate MY ask me to delete the notebooks cause he doesn't want to make it public, I'll reproduce his result with pyterrier when I have time
 
 ## pyserini
