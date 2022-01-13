@@ -1,4 +1,7 @@
 # IRIE2021
+## notebook
+contain our experiments related to pyterrier, including our highest leaderboard results
+
 ## pyserini
 adapt code from waterloo's pyserini package for bm25 search, follow these steps:  
 - save the docs into JSON format; query to tsv format  
@@ -13,6 +16,18 @@ bash pyserini/search.sh path/to/query.tsv path/to/indexes
 - post-process to kaggle format  
 ```bash
 python3 pyserini/post-process.py run.sample.txt > submission.csv
+```
+
+## pyterrier
+adapt pyterrier to build retrival system, only for testing, detailed usage is in .ipynb files
+- usage
+```bash
+python3 pyterrier/test.py -d path/contain/all/documents \
+                          -i path/for/saving/terrier-index \
+                          --rebuild_index option/for/if/needed/to/rebuild/index/from/scratch true or false
+                          -q path/contain/all/queries
+                          --save_dir path/for/saving/results
+                          --output_csv submission.csv
 ```
 
 ## scispacy
