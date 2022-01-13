@@ -4,15 +4,15 @@ adapt code from waterloo's pyserini package for bm25 search, follow these steps:
 - save the docs into JSON format; query to tsv format  
 - build index with `build_index.sh`  
 ```bash
-bash build_index.sh path/contain/doc/jsons path/for/save/indexes
+bash pyserini/build_index.sh path/contain/doc/jsons path/for/save/indexes
 ```  
 - search with `search.sh`  
 ```bash
-bash search.sh path/to/query.tsv path/to/indexes
+bash pyserini/search.sh path/to/query.tsv path/to/indexes
 ```
 - post-process to kaggle format  
 ```bash
-python3 post-process.py run.sample.txt > submission.csv
+python3 pyserini/post-process.py run.sample.txt > submission.csv
 ```
 
 ## scispacy
