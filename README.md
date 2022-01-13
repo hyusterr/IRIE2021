@@ -48,6 +48,7 @@ python3 SBERT/train.py -qd path/to/train_query/description/ \
                        -e number of epochs \
                        -m huggingface/pretrain/model/name
 ```
+- first down load model checkpoint at https://drive.google.com/file/d/16FxQ7yeiB-en4mMPmmkxZDCcDzhzOV-I/view?usp=sharing and unzip
 - inference on first-stage retrieval outcome
 ```bash
 python3 SBERT/inference.py -m model/saving/path \
